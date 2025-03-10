@@ -1,0 +1,5 @@
+[33mcommit 89a5819941a8b48ac03d14e7864d0d25087bebac[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: hseinsb <hussein.sbeiti.wb@gmail.com>
+Date:   Mon Mar 10 17:20:25 2025 -0400
+
+    Fix: Force white background for blog cards in any mode and completely rewrite LikeButton functionality

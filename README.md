@@ -1,16 +1,30 @@
 # Hussein's Philosophy Blog
 
-A personal blog website for publishing theories and philosophies on various topics including religion, morals, philosophy, and personal growth.
+A modern, responsive blog focused on philosophical topics including religion, morals, philosophy, and personal growth.
 
 ## Features
 
-- **Public Blog Reading**: Anyone can read blog posts, leave comments, and like posts
-- **Admin Panel**: Only the owner can add, edit, or delete posts
-- **Category Organization**: Posts organized into four main categories
-- **Comments System**: Visitors can leave comments without needing to create an account
-- **Like System**: Visitors can like posts (limited to once per session via localStorage)
-- **Responsive Design**: Beautiful UI that works on all devices
-- **Dark/Light Mode**: Toggle between dark and light themes
+- Responsive design for all devices
+- Dark/light mode toggle
+- Category-based navigation
+- Rich text editing with TinyMCE
+- Comment system
+- Like functionality for posts
+
+## Technologies Used
+
+- Next.js 15
+- React 18
+- TypeScript
+- Tailwind CSS
+- Firebase/Firestore
+- Vercel Deployment
+
+## Deployment
+
+This project is deployed on Vercel.
+
+Last update: March 10, 2025
 
 ## Tech Stack
 
@@ -80,15 +94,6 @@ A personal blog website for publishing theories and philosophies on various topi
 3. Set up Authentication with Email/Password provider
 4. Create an admin user through the Authentication panel
 5. Set up Firestore security rules to protect your data
-
-## Deployment
-
-This project is designed to be deployed on Vercel:
-
-1. Push your code to a GitHub repository
-2. Connect your repository to Vercel
-3. Add your environment variables in the Vercel project settings
-4. Deploy!
 
 ## License
 
