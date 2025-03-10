@@ -10,6 +10,7 @@ interface CategoryParams {
   params: {
     category: string;
   };
+  searchParams: Record<string, string | string[] | undefined>;
 }
 
 // Validate and format the category for display
