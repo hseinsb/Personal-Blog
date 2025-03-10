@@ -38,20 +38,20 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
   const getCategoryStyle = () => {
     switch (post.category) {
       case "religion":
-        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100";
+        return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300";
       case "morals":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100";
+        return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300";
       case "philosophy":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100";
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300";
       case "personal-growth":
-        return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100";
+        return "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300";
       default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100";
+        return "bg-gray-100 text-gray-800 dark:bg-gray-800/50 dark:text-gray-300";
     }
   };
 
   return (
-    <article className="bento-card flex flex-col h-full bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md transition-all duration-300">
+    <article className="bento-card flex flex-col h-full bg-white dark:bg-gray-800/90 p-5 rounded-xl shadow-md transition-all duration-300">
       <div className="flex justify-between items-start mb-4">
         <span
           className={`px-2 py-1 rounded-md text-xs ${getCategoryStyle()} transition-colors duration-300`}
@@ -64,7 +64,7 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
         </div>
       </div>
 
-      <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-white transition-colors duration-300">
+      <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-gray-100 transition-colors duration-300">
         {post.title}
       </h2>
 

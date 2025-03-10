@@ -2,7 +2,7 @@
 
 import { FiSun, FiMoon } from "react-icons/fi";
 import { useTheme } from "./ThemeProvider";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 type ThemeToggleProps = {
   variant?: "default" | "compact";
@@ -11,13 +11,11 @@ type ThemeToggleProps = {
 export default function ThemeToggle({ variant = "default" }: ThemeToggleProps) {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === "dark";
-  const [htmlHasDark, setHtmlHasDark] = useState(false);
 
   // Force dark mode to correct value based on actual class presence
   useEffect(() => {
     const htmlElement = document.documentElement;
     const hasDarkClass = htmlElement.classList.contains("dark");
-    setHtmlHasDark(hasDarkClass);
 
     // Fix any mismatch between state and actual class
     if (isDark && !hasDarkClass) {
@@ -45,13 +43,6 @@ export default function ThemeToggle({ variant = "default" }: ThemeToggleProps) {
 
     // Call the context's toggle function
     toggleTheme();
-
-    // Force check the actual state after toggling
-    setTimeout(() => {
-      const hasDarkClass = document.documentElement.classList.contains("dark");
-      setHtmlHasDark(hasDarkClass);
-      console.log(`After toggle - HTML has dark class: ${hasDarkClass}`);
-    }, 100);
   };
 
   // Compact version for header
@@ -90,9 +81,6 @@ export default function ThemeToggle({ variant = "default" }: ThemeToggleProps) {
         >
           {isDark ? "Dark Mode Active" : "Light Mode Active"}
         </span>
-        <p className="text-xs mt-1">
-          HTML has dark class: {htmlHasDark ? "Yes" : "No"}
-        </p>
       </div>
 
       <button

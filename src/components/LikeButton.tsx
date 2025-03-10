@@ -29,28 +29,25 @@ export default function LikeButton({ postId, initialLikes }: LikeButtonProps) {
 
     try {
       if (hasLiked) {
-        // Unlike
+        // Unlike - update UI optimistically
         setLikes((prev) => Math.max(0, prev - 1));
         setHasLiked(false);
-
-        // Update in Firestore
-        await decrementLikes(postId);
-
-        // Remove from localStorage
         localStorage.removeItem(`liked-${postId}`);
+
+        // Then update in Firestore
+        await decrementLikes(postId);
       } else {
-        // Like
+        // Like - update UI optimistically
         setLikes((prev) => prev + 1);
         setHasLiked(true);
-
-        // Update in Firestore and ensure we wait for the operation to complete
-        await incrementLikes(postId);
-
-        // Save liked state in localStorage
         localStorage.setItem(`liked-${postId}`, "true");
+
+        // Then update in Firestore
+        await incrementLikes(postId);
       }
     } catch (error) {
       console.error("Error updating likes:", error);
+
       // Revert optimistic update
       if (hasLiked) {
         setLikes((prev) => prev + 1);
