@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+/* Light theme (default) */
+:root {
+  --background: #f8f9fa;
+  --foreground: #2d3748;
+  --primary: #4a5568;
+  --secondary: #718096;
+  --accent: #8a5cf6;
+  --accent-light: #c3dafe;
+  --card-bg: #ffffff;
+}
+
+/* Tailwind variables */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-primary: var(--font-kalam);
+}
+
+/* Dark theme - system preference */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --background: #1a202c;
+    --foreground: #e2e8f0;
+    --primary: #a0aec0;
+    --secondary: #cbd5e0;
+    --accent: #9f7aea;
+    --accent-light: #553c9a;
+    --card-bg: #2d3748;
+  }
+}
+
+/* Dark theme - via class */
+.dark {
+  --background: #1a202c !important;
+  --foreground: #e2e8f0 !important;
+  --primary: #a0aec0 !important;
+  --secondary: #cbd5e0 !important;
+  --accent: #9f7aea !important;
+  --accent-light: #553c9a !important;
+  --card-bg: #2d3748 !important;
+}
+
+html {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+html.dark {
+  background-color: #1a202c !important;
+  color: #e2e8f0 !important;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-primary), Arial, sans-serif;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.dark body {
+  background-color: #1a202c !important;
+  color: #e2e8f0 !important;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-auto-rows: minmax(150px, auto);
+  gap: 1rem;
+}
+
+.bento-card {
+  background: var(--card-bg);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.bento-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.bento-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  pointer-events: none;
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.bento-card:hover::before {
+  transform: translateX(100%);
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Fix for paragraph spacing in the blog content */
+.prose p {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.prose p:empty {
+  height: 1.5rem !important;
+  margin: 1rem 0 !important;
+}
+
+.prose p + p {
+  margin-top: 1.5rem !important;
+}
+
+/* Keep the existing list styles */
+.prose ul {
+  list-style-type: disc !important;
+  padding-left: 2rem !important;
+  margin: 1rem 0 !important;
+}
+
+.prose ol {
+  list-style-type: decimal !important;
+  padding-left: 2rem !important;
+  margin: 1rem 0 !important;
+}
+
+.prose ul li,
+.prose ol li {
+  margin: 0.5rem 0 !important;
+  padding-left: 0.5rem !important;
+}
+
+/* Ensure list items have proper bullets and numbers in dark mode */
+.dark .prose ul li::marker {
+  color: rgb(209 213 219) !important;
+}
+
+.dark .prose ol li::marker {
+  color: rgb(209 213 219) !important;
+}

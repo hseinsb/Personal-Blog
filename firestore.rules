@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Admin UID - replace with your actual admin UID from your .env file
+    function isAdmin() {
+      return request.auth != null && request.auth.uid == "YOUR_ADMIN_UID";
+    }
+    
+    // Posts collection
+    match /posts/{postId} {
+      // Anyone can read posts
+      allow read: if true;
+      
+      // Only admin can create, update, delete
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // Comments collection
+    match /comments/{commentId} {
+      // Anyone can read comments
+      allow read: if true;
+      
+      // Anyone can create a comment
+      allow create: if request.resource.data.name is string &&
+                     request.resource.data.name.size() > 0 &&
+                     request.resource.data.message is string &&
+                     request.resource.data.message.size() > 0 &&
+                     request.resource.data.postId is string;
+      
+      // Only admin can delete comments
+      allow delete: if isAdmin();
+      
+      // No one can update comments
+      allow update: if false;
+    }
+    
+    // Likes - we don't store individual likes, just increment the counter on posts
+    // This is handled in the application code with localStorage to prevent multiple likes
+  }
+} 
