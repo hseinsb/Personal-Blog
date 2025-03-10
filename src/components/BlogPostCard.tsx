@@ -38,42 +38,42 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
   const getCategoryStyle = () => {
     switch (post.category) {
       case "religion":
-        return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300";
+        return "bg-red-100 text-red-800 dark:bg-red-100/80 dark:text-red-900";
       case "morals":
-        return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300";
+        return "bg-green-100 text-green-800 dark:bg-green-100/80 dark:text-green-900";
       case "philosophy":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300";
+        return "bg-blue-100 text-blue-800 dark:bg-blue-100/80 dark:text-blue-900";
       case "personal-growth":
-        return "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300";
+        return "bg-purple-100 text-purple-800 dark:bg-purple-100/80 dark:text-purple-900";
       default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-800/50 dark:text-gray-300";
+        return "bg-gray-100 text-gray-800 dark:bg-gray-100/80 dark:text-gray-900";
     }
   };
 
   return (
-    <article className="bento-card flex flex-col h-full bg-white dark:bg-gray-800/90 p-5 rounded-xl shadow-md transition-all duration-300">
+    <article className="bento-card flex flex-col h-full bg-white dark:bg-white/90 p-5 rounded-xl shadow-md transition-all duration-300">
       <div className="flex justify-between items-start mb-4">
         <span
           className={`px-2 py-1 rounded-md text-xs ${getCategoryStyle()} transition-colors duration-300`}
         >
           {post.category.replace("-", " ")}
         </span>
-        <div className="flex items-center text-gray-500 dark:text-gray-400 transition-colors duration-300">
+        <div className="flex items-center text-gray-500 dark:text-gray-600 transition-colors duration-300">
           <FiThumbsUp className="mr-1" />
           <span>{post.likes}</span>
         </div>
       </div>
 
-      <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-gray-100 transition-colors duration-300">
+      <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-gray-900 transition-colors duration-300">
         {post.title}
       </h2>
 
-      <p className="text-sm flex-grow mb-4 text-gray-700 dark:text-gray-300 transition-colors duration-300">
+      <p className="text-sm flex-grow mb-4 text-gray-700 dark:text-gray-700 transition-colors duration-300">
         {truncatedContent}
       </p>
 
       <div className="mt-auto flex items-center justify-between">
-        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">
+        <div className="flex items-center text-sm text-gray-500 dark:text-gray-600 transition-colors duration-300">
           <FiCalendar className="mr-1" />
           <span>{formattedDate}</span>
         </div>
