@@ -51,27 +51,29 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
   };
 
   return (
-    <article className="bento-card flex flex-col h-full">
+    <article className="bento-card flex flex-col h-full bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md transition-all duration-300">
       <div className="flex justify-between items-start mb-4">
-        <span className={`px-2 py-1 rounded-md text-xs ${getCategoryStyle()}`}>
+        <span
+          className={`px-2 py-1 rounded-md text-xs ${getCategoryStyle()} transition-colors duration-300`}
+        >
           {post.category.replace("-", " ")}
         </span>
-        <div className="flex items-center text-gray-500 dark:text-gray-400">
+        <div className="flex items-center text-gray-500 dark:text-gray-400 transition-colors duration-300">
           <FiThumbsUp className="mr-1" />
           <span>{post.likes}</span>
         </div>
       </div>
 
-      <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-white">
+      <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-white transition-colors duration-300">
         {post.title}
       </h2>
 
-      <p className="text-sm flex-grow mb-4 text-gray-700 dark:text-gray-300">
+      <p className="text-sm flex-grow mb-4 text-gray-700 dark:text-gray-300 transition-colors duration-300">
         {truncatedContent}
       </p>
 
       <div className="mt-auto flex items-center justify-between">
-        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">
           <FiCalendar className="mr-1" />
           <span>{formattedDate}</span>
         </div>

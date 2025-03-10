@@ -12,6 +12,7 @@ interface LikeButtonProps {
 export default function LikeButton({ postId, initialLikes }: LikeButtonProps) {
   const [likes, setLikes] = useState(initialLikes);
   const [hasLiked, setHasLiked] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   // Check localStorage on component mount
   useEffect(() => {
@@ -22,6 +23,10 @@ export default function LikeButton({ postId, initialLikes }: LikeButtonProps) {
   }, [postId]);
 
   const handleLikeToggle = async () => {
+    if (isUpdating) return; // Prevent multiple clicks while request is in progress
+
+    setIsUpdating(true);
+
     try {
       if (hasLiked) {
         // Unlike
@@ -38,7 +43,7 @@ export default function LikeButton({ postId, initialLikes }: LikeButtonProps) {
         setLikes((prev) => prev + 1);
         setHasLiked(true);
 
-        // Update in Firestore
+        // Update in Firestore and ensure we wait for the operation to complete
         await incrementLikes(postId);
 
         // Save liked state in localStorage
@@ -50,21 +55,26 @@ export default function LikeButton({ postId, initialLikes }: LikeButtonProps) {
       if (hasLiked) {
         setLikes((prev) => prev + 1);
         setHasLiked(true);
+        localStorage.setItem(`liked-${postId}`, "true");
       } else {
         setLikes((prev) => Math.max(0, prev - 1));
         setHasLiked(false);
+        localStorage.removeItem(`liked-${postId}`);
       }
+    } finally {
+      setIsUpdating(false);
     }
   };
 
   return (
     <button
       onClick={handleLikeToggle}
+      disabled={isUpdating}
       className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all ${
         hasLiked
           ? "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300"
           : "bg-purple-600 hover:bg-purple-700 text-white hover:shadow-md"
-      }`}
+      } ${isUpdating ? "opacity-70 cursor-not-allowed" : ""}`}
     >
       <FiThumbsUp
         className={hasLiked ? "fill-purple-600 dark:fill-purple-400" : ""}
