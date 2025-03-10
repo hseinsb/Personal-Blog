@@ -33,23 +33,50 @@ export interface Comment {
 
 // Posts CRUD operations
 export async function getAllPosts() {
-  const postsRef = collection(db, "posts");
-  const postsSnapshot = await getDocs(query(postsRef, orderBy("date", "desc")));
-  return postsSnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as BlogPost[];
+  try {
+    console.log("Fetching all posts...");
+    const postsRef = collection(db, "posts");
+    // Use a more reliable ordering by date
+    const postsSnapshot = await getDocs(
+      query(postsRef, orderBy("date", "desc"))
+    );
+
+    const posts = postsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as BlogPost[];
+
+    console.log(`Retrieved ${posts.length} posts`);
+    return posts;
+  } catch (error) {
+    console.error("Error fetching all posts:", error);
+    return [];
+  }
 }
 
 export async function getPostsByCategory(category: BlogPost["category"]) {
-  const postsRef = collection(db, "posts");
-  const postsSnapshot = await getDocs(
-    query(postsRef, where("category", "==", category), orderBy("date", "desc"))
-  );
-  return postsSnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as BlogPost[];
+  try {
+    console.log(`Fetching posts for category: ${category}`);
+    const postsRef = collection(db, "posts");
+    const postsSnapshot = await getDocs(
+      query(
+        postsRef,
+        where("category", "==", category),
+        orderBy("date", "desc")
+      )
+    );
+
+    const posts = postsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as BlogPost[];
+
+    console.log(`Retrieved ${posts.length} posts for category: ${category}`);
+    return posts;
+  } catch (error) {
+    console.error(`Error fetching posts for category ${category}:`, error);
+    return [];
+  }
 }
 
 export async function getPostBySlug(slug: string) {

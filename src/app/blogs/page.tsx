@@ -2,10 +2,14 @@ import Link from "next/link";
 import { getAllPosts } from "@/lib/firestore";
 import BlogPostCard from "@/components/BlogPostCard";
 
-export const revalidate = 3600; // Revalidate data every hour
+// More frequent revalidation for the main blog page
+export const revalidate = 60; // Revalidate every minute
 
 export default async function BlogsPage() {
   const posts = await getAllPosts();
+
+  // Generate a unique key based on the current time to help debug caching issues
+  const timestamp = new Date().toISOString();
 
   return (
     <div className="min-h-screen p-6 pt-20 md:p-12 md:pt-24 bg-gradient-to-br from-gray-50 to-purple-100/50 dark:from-gray-900 dark:to-purple-900/30 transition-colors duration-300">
@@ -54,7 +58,9 @@ export default async function BlogsPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {posts.length > 0 ? (
-            posts.map((post) => <BlogPostCard key={post.id} post={post} />)
+            posts.map((post) => (
+              <BlogPostCard key={`${post.id}-${timestamp}`} post={post} />
+            ))
           ) : (
             <div className="col-span-full text-center p-12 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-white/80 dark:bg-gray-800/60">
               <p className="text-xl text-gray-600 dark:text-gray-400">
@@ -63,6 +69,9 @@ export default async function BlogsPage() {
             </div>
           )}
         </div>
+
+        {/* Hidden timestamp for debugging */}
+        <div className="hidden">{timestamp}</div>
       </div>
     </div>
   );

@@ -9,6 +9,20 @@ const nextConfig: NextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  // Add specific headers for the blogs page to prevent caching
+  async headers() {
+    return [
+      {
+        source: "/blogs",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, must-revalidate",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

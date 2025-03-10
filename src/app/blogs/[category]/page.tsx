@@ -4,7 +4,8 @@ import BlogPostCard from "@/components/BlogPostCard";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
-export const revalidate = 3600; // Revalidate data every hour
+// More frequent revalidation for category pages
+export const revalidate = 60; // Revalidate every minute
 
 // Validate and format the category for display
 function formatCategory(category: string): string {
