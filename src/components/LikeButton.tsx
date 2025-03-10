@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { FiThumbsUp } from "react-icons/fi";
 import { incrementLikes } from "@/lib/firestore";
+import { useRouter } from "next/navigation";
 
 interface LikeButtonProps {
   postId: string;
@@ -10,6 +11,7 @@ interface LikeButtonProps {
 }
 
 export default function LikeButton({ postId, initialLikes }: LikeButtonProps) {
+  const router = useRouter();
   // Create state for likes and liked status
   const [likeCount, setLikeCount] = useState(initialLikes);
   const [userLiked, setUserLiked] = useState(false);
@@ -77,6 +79,14 @@ export default function LikeButton({ postId, initialLikes }: LikeButtonProps) {
       if (isMounted.current) {
         saveLikeToStorage(true);
         console.log(`Like operation successful, saved state`);
+
+        // Force refresh the page to get the new like count from the server
+        setTimeout(() => {
+          if (isMounted.current) {
+            // Add a cache-busting parameter to force a fresh fetch
+            router.refresh();
+          }
+        }, 300);
       }
     } catch (error) {
       console.error(`Failed to update like for post ${postId}:`, error);

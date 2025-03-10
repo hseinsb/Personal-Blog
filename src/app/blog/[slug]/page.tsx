@@ -7,7 +7,8 @@ import CommentForm from "@/components/CommentForm";
 import CommentList from "@/components/CommentList";
 import LikeButton from "@/components/LikeButton";
 
-export const revalidate = 3600; // Revalidate data every hour
+// Disable caching for this page to ensure likes are always fresh
+export const revalidate = 0; // Revalidate on every request
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
@@ -142,7 +143,11 @@ export default async function BlogPostPage(props: {
           />
 
           <div className="mt-12 flex justify-center">
-            <LikeButton postId={post.id!} initialLikes={post.likes} />
+            <LikeButton
+              key={`like-${post.id}-${post.likes}`}
+              postId={post.id!}
+              initialLikes={post.likes}
+            />
           </div>
         </article>
 
