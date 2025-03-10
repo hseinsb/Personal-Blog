@@ -6,10 +6,6 @@ import { Metadata } from "next";
 
 export const revalidate = 3600; // Revalidate data every hour
 
-type CategorySlug = {
-  category: string;
-};
-
 // Validate and format the category for display
 function formatCategory(category: string): string {
   // Convert hyphenated names to title case
@@ -28,11 +24,7 @@ function isValidCategory(
   );
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: CategorySlug;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: any): Promise<Metadata> {
   const { category } = params;
 
   if (!isValidCategory(category)) {
@@ -49,11 +41,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function CategoryPage({
-  params,
-}: {
-  params: CategorySlug;
-}) {
+export default async function CategoryPage({ params }: any) {
   const { category } = params;
 
   if (!isValidCategory(category)) {
