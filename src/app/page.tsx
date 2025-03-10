@@ -71,7 +71,7 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {/* Dark/Light Mode Toggle */}
           <div
-            className={`rounded-2xl p-4 shadow-lg col-span-1 flex items-center justify-center transition-all ${
+            className={`rounded-2xl p-4 shadow-lg flex items-center justify-center transition-all ${
               isDarkMode ? "bg-indigo-900" : "bg-indigo-100"
             }`}
           >
@@ -79,21 +79,25 @@ export default function Home() {
           </div>
 
           {/* Instagram Link */}
-          <Link
-            href="https://instagram.com/hseinsbeiti"
-            className={`rounded-2xl p-4 shadow-lg col-span-1 flex flex-col items-center justify-center transition-all ${
+          <div
+            className={`rounded-2xl p-4 shadow-lg flex flex-col items-center justify-center transition-all ${
               isDarkMode
                 ? "bg-pink-900 hover:bg-pink-800"
                 : "bg-pink-100 hover:bg-pink-200"
             }`}
           >
-            <FiInstagram className="text-4xl text-pink-500 mb-2" />
-            <span className="text-lg">@hseinsbeiti</span>
-          </Link>
+            <Link
+              href="https://instagram.com/hseinsbeiti"
+              className="flex flex-col items-center justify-center w-full h-full"
+            >
+              <FiInstagram className="text-4xl text-pink-500 mb-2" />
+              <span className="text-lg">@hseinsbeiti</span>
+            </Link>
+          </div>
 
           {/* About Section */}
           <div
-            className={`rounded-2xl p-6 shadow-lg col-span-2 transition-all ${
+            className={`rounded-2xl p-6 shadow-lg sm:col-span-2 transition-all ${
               isDarkMode ? "bg-teal-900" : "bg-teal-100"
             }`}
           >
@@ -114,61 +118,65 @@ export default function Home() {
           </div>
 
           {/* Section Shortcuts */}
-          <Link
-            href="/blogs/religion"
-            className={`rounded-2xl p-4 shadow-lg col-span-1 transition-all ${
+          <div
+            className={`rounded-2xl p-4 shadow-lg transition-all ${
               isDarkMode
                 ? "bg-red-900 hover:bg-red-800"
                 : "bg-red-100 hover:bg-red-200"
             }`}
           >
-            <h3 className="text-lg font-bold mb-1">Religion</h3>
-            <p className="text-sm">
-              Explorations of faith, spirituality, and divine purpose
-            </p>
-          </Link>
+            <Link href="/blogs/religion" className="block h-full">
+              <h3 className="text-lg font-bold mb-1">Religion</h3>
+              <p className="text-sm">
+                Explorations of faith, spirituality, and divine purpose
+              </p>
+            </Link>
+          </div>
 
-          <Link
-            href="/blogs/morals"
-            className={`rounded-2xl p-4 shadow-lg col-span-1 transition-all ${
+          <div
+            className={`rounded-2xl p-4 shadow-lg transition-all ${
               isDarkMode
                 ? "bg-green-900 hover:bg-green-800"
                 : "bg-green-100 hover:bg-green-200"
             }`}
           >
-            <h3 className="text-lg font-bold mb-1">Morals</h3>
-            <p className="text-sm">
-              Investigations into ethics, principles, and living virtuously
-            </p>
-          </Link>
+            <Link href="/blogs/morals" className="block h-full">
+              <h3 className="text-lg font-bold mb-1">Morals</h3>
+              <p className="text-sm">
+                Investigations into ethics, principles, and living virtuously
+              </p>
+            </Link>
+          </div>
 
-          <Link
-            href="/blogs/philosophy"
-            className={`rounded-2xl p-4 shadow-lg col-span-1 transition-all ${
+          <div
+            className={`rounded-2xl p-4 shadow-lg transition-all ${
               isDarkMode
                 ? "bg-blue-900 hover:bg-blue-800"
                 : "bg-blue-100 hover:bg-blue-200"
             }`}
           >
-            <h3 className="text-lg font-bold mb-1">Philosophy</h3>
-            <p className="text-sm">
-              Thoughts on meaning, knowledge, and the human condition
-            </p>
-          </Link>
+            <Link href="/blogs/philosophy" className="block h-full">
+              <h3 className="text-lg font-bold mb-1">Philosophy</h3>
+              <p className="text-sm">
+                Thoughts on meaning, knowledge, and the human condition
+              </p>
+            </Link>
+          </div>
 
-          <Link
-            href="/blogs/personal-growth"
-            className={`rounded-2xl p-4 shadow-lg col-span-1 transition-all ${
+          <div
+            className={`rounded-2xl p-4 shadow-lg transition-all ${
               isDarkMode
                 ? "bg-violet-900 hover:bg-violet-800"
                 : "bg-violet-100 hover:bg-violet-200"
             }`}
           >
-            <h3 className="text-lg font-bold mb-1">Personal Growth</h3>
-            <p className="text-sm">
-              Reflections on mindset, development, and self-improvement
-            </p>
-          </Link>
+            <Link href="/blogs/personal-growth" className="block h-full">
+              <h3 className="text-lg font-bold mb-1">Personal Growth</h3>
+              <p className="text-sm">
+                Reflections on mindset, development, and self-improvement
+              </p>
+            </Link>
+          </div>
         </div>
 
         <div className="flex justify-center mt-10">

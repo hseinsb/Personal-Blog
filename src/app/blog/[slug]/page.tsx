@@ -9,8 +9,13 @@ import LikeButton from "@/components/LikeButton";
 
 export const revalidate = 3600; // Revalidate data every hour
 
-export async function generateMetadata({ params }: any): Promise<Metadata> {
-  const { slug } = params;
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  // Await the params object before accessing its properties
+  const { slug } = await props.params;
+
+  // Fetch the post data
   const post = await getPostBySlug(slug);
 
   if (!post) {
@@ -25,8 +30,13 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
   };
 }
 
-export default async function BlogPostPage({ params }: any) {
-  const { slug } = params;
+export default async function BlogPostPage(props: {
+  params: Promise<{ slug: string }>;
+}) {
+  // Await the params object before accessing its properties
+  const { slug } = await props.params;
+
+  // Fetch the post data
   const post = await getPostBySlug(slug);
 
   if (!post) {

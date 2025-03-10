@@ -24,8 +24,11 @@ function isValidCategory(
   );
 }
 
-export async function generateMetadata({ params }: any): Promise<Metadata> {
-  const { category } = params;
+export async function generateMetadata(props: {
+  params: Promise<{ category: string }>;
+}): Promise<Metadata> {
+  // Await the params object before accessing its properties
+  const { category } = await props.params;
 
   if (!isValidCategory(category)) {
     return {
@@ -41,8 +44,11 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
   };
 }
 
-export default async function CategoryPage({ params }: any) {
-  const { category } = params;
+export default async function CategoryPage(props: {
+  params: Promise<{ category: string }>;
+}) {
+  // Await the params object before accessing its properties
+  const { category } = await props.params;
 
   if (!isValidCategory(category)) {
     notFound();
@@ -68,24 +74,24 @@ export default async function CategoryPage({ params }: any) {
   };
 
   return (
-    <div className="min-h-screen p-6 pt-20 md:p-12 md:pt-24 bg-gradient-to-br from-gray-50 to-purple-100/50 dark:from-gray-900 dark:to-purple-900/30 transition-colors duration-300">
+    <div className="min-h-screen p-6 pt-20 md:p-12 md:pt-24 bg-gradient-to-br from-gray-50 to-purple-100/50 dark:from-gray-900 dark:to-purple-900/30 transition-all duration-300">
       <div className="max-w-6xl mx-auto">
         <header className="mb-12">
           <div className="flex flex-wrap gap-2 mb-4 text-sm">
             <Link
               href="/"
-              className="text-purple-600 hover:text-purple-700 hover:underline inline-block"
+              className="text-purple-600 hover:text-purple-700 hover:underline inline-block dark:text-purple-400 dark:hover:text-purple-300"
             >
               Home
             </Link>
-            <span className="text-gray-500">/</span>
+            <span className="text-gray-500 dark:text-gray-400">/</span>
             <Link
               href="/blogs"
-              className="text-purple-600 hover:text-purple-700 hover:underline inline-block"
+              className="text-purple-600 hover:text-purple-700 hover:underline inline-block dark:text-purple-400 dark:hover:text-purple-300"
             >
               Blogs
             </Link>
-            <span className="text-gray-500">/</span>
+            <span className="text-gray-500 dark:text-gray-400">/</span>
             <span className="text-gray-600 dark:text-gray-400">
               {formattedCategory}
             </span>
@@ -106,7 +112,7 @@ export default async function CategoryPage({ params }: any) {
           {posts.length > 0 ? (
             posts.map((post) => <BlogPostCard key={post.id} post={post} />)
           ) : (
-            <div className="col-span-full text-center p-12 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-white/80 dark:bg-gray-800/60">
+            <div className="col-span-full text-center p-12 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-white/80 dark:bg-gray-800/60 transition-colors duration-300">
               <p className="text-xl text-gray-600 dark:text-gray-400">
                 No posts in this category yet. Check back soon!
               </p>
