@@ -123,7 +123,9 @@ export default async function BlogPostPage(props: {
 
               <div className="flex items-center">
                 <FiThumbsUp className="mr-1" />
-                <span>{post.likes} likes</span>
+                <span>
+                  {post.likes} {post.likes === 1 ? "like" : "likes"}
+                </span>
               </div>
             </div>
           </div>
