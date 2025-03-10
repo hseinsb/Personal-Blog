@@ -13,7 +13,7 @@ export default async function BlogsPage() {
         <header className="mb-8">
           <Link
             href="/"
-            className="text-purple-600 hover:text-purple-700 hover:underline mb-4 inline-block"
+            className="text-purple-600 hover:text-purple-700 hover:underline mb-4 inline-block dark:text-purple-400"
           >
             ← Back to Home
           </Link>
@@ -56,7 +56,7 @@ export default async function BlogsPage() {
           {posts.length > 0 ? (
             posts.map((post) => <BlogPostCard key={post.id} post={post} />)
           ) : (
-            <div className="col-span-full text-center p-12 border border-dashed border-gray-300 rounded-lg bg-white/80 dark:bg-gray-800/60">
+            <div className="col-span-full text-center p-12 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-white/80 dark:bg-gray-800/60">
               <p className="text-xl text-gray-600 dark:text-gray-400">
                 No blog posts yet. Check back soon!
               </p>
