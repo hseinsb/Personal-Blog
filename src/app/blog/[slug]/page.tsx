@@ -9,16 +9,15 @@ import LikeButton from "@/components/LikeButton";
 
 export const revalidate = 3600; // Revalidate data every hour
 
-interface BlogPostParams {
-  params: {
-    slug: string;
-  };
-  searchParams: Record<string, string | string[] | undefined>;
-}
+type SlugParams = {
+  slug: string;
+};
 
 export async function generateMetadata({
   params,
-}: BlogPostParams): Promise<Metadata> {
+}: {
+  params: SlugParams;
+}): Promise<Metadata> {
   const { slug } = params;
   const post = await getPostBySlug(slug);
 
@@ -34,7 +33,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function BlogPostPage({ params }: BlogPostParams) {
+export default async function BlogPostPage({ params }: { params: SlugParams }) {
   const { slug } = params;
   const post = await getPostBySlug(slug);
 
