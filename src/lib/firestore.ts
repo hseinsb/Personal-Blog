@@ -12,7 +12,6 @@ import {
   serverTimestamp,
   increment,
   Timestamp,
-  getDoc,
 } from "firebase/firestore";
 
 // Types
@@ -129,14 +128,8 @@ export async function incrementLikes(postId: string) {
 
 export async function decrementLikes(postId: string) {
   const postRef = doc(db, "posts", postId);
-  // Get current likes
-  const post = await getDoc(postRef);
-  const currentLikes = post.data()?.likes || 0;
-
-  // Ensure likes don't go below zero
-  const newLikes = Math.max(0, currentLikes - 1);
-
+  // Using increment(-1) and ensuring likes don't go below 0 is handled in the LikeButton component
   return updateDoc(postRef, {
-    likes: newLikes,
+    likes: increment(-1),
   });
 }

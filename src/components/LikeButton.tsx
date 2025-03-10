@@ -34,9 +34,11 @@ export default function LikeButton({ postId, initialLikes }: LikeButtonProps) {
   // Initialize from localStorage on mount
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(`post_like_${postId}`);
-      if (saved === "true") {
-        setUserLiked(true);
+      if (typeof window !== "undefined") {
+        const saved = localStorage.getItem(`post_like_${postId}`);
+        if (saved === "true") {
+          setUserLiked(true);
+        }
       }
     } catch (e) {
       console.error("Error reading from localStorage:", e);
@@ -50,27 +52,25 @@ export default function LikeButton({ postId, initialLikes }: LikeButtonProps) {
     setIsProcessing(true);
     const newLikedState = !userLiked;
 
-    // Update UI immediately (optimistic update)
-    setUserLiked(newLikedState);
-    setLikeCount((prev) => (newLikedState ? prev + 1 : Math.max(0, prev - 1)));
-    saveLikeToStorage(newLikedState);
-
     try {
-      // Update the database
+      // Update the database first
       if (newLikedState) {
         await incrementLikes(postId);
       } else {
-        await decrementLikes(postId);
+        // Only decrement if current like count is greater than 0
+        if (likeCount > 0) {
+          await decrementLikes(postId);
+        }
       }
+
+      // Only update UI after successful database update
+      setUserLiked(newLikedState);
+      setLikeCount((prev) =>
+        newLikedState ? prev + 1 : Math.max(0, prev - 1)
+      );
+      saveLikeToStorage(newLikedState);
     } catch (error) {
       console.error("Failed to update like:", error);
-
-      // Revert the optimistic update on failure
-      setUserLiked(!newLikedState);
-      setLikeCount((prev) =>
-        !newLikedState ? prev + 1 : Math.max(0, prev - 1)
-      );
-      saveLikeToStorage(!newLikedState);
     } finally {
       setIsProcessing(false);
     }
