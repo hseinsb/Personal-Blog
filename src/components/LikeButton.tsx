@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { FiThumbsUp } from "react-icons/fi";
 import { incrementLikes, decrementLikes } from "@/lib/firestore";
 
@@ -10,78 +10,85 @@ interface LikeButtonProps {
 }
 
 export default function LikeButton({ postId, initialLikes }: LikeButtonProps) {
-  const [likes, setLikes] = useState(initialLikes);
-  const [hasLiked, setHasLiked] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
+  // Create state for likes and liked status
+  const [likeCount, setLikeCount] = useState(initialLikes);
+  const [userLiked, setUserLiked] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  // Check localStorage on mount to determine if user has already liked this post
+  // Function to save like state to local storage
+  const saveLikeToStorage = useCallback(
+    (liked: boolean) => {
+      try {
+        if (liked) {
+          localStorage.setItem(`post_like_${postId}`, "true");
+        } else {
+          localStorage.removeItem(`post_like_${postId}`);
+        }
+      } catch (e) {
+        console.error("Error accessing localStorage:", e);
+      }
+    },
+    [postId]
+  );
+
+  // Initialize from localStorage on mount
   useEffect(() => {
-    const likedStatus = localStorage.getItem(`liked-${postId}`);
-    if (likedStatus === "true") {
-      setHasLiked(true);
+    try {
+      const saved = localStorage.getItem(`post_like_${postId}`);
+      if (saved === "true") {
+        setUserLiked(true);
+      }
+    } catch (e) {
+      console.error("Error reading from localStorage:", e);
     }
   }, [postId]);
 
-  const handleLike = async () => {
-    if (isUpdating) return;
-    setIsUpdating(true);
+  // Handle like/unlike
+  const toggleLike = async () => {
+    if (isProcessing) return;
+
+    setIsProcessing(true);
+    const newLikedState = !userLiked;
+
+    // Update UI immediately (optimistic update)
+    setUserLiked(newLikedState);
+    setLikeCount((prev) => (newLikedState ? prev + 1 : Math.max(0, prev - 1)));
+    saveLikeToStorage(newLikedState);
 
     try {
-      if (!hasLiked) {
-        // First update state and localStorage (optimistic update)
-        setLikes((prevLikes) => prevLikes + 1);
-        setHasLiked(true);
-        localStorage.setItem(`liked-${postId}`, "true");
-
-        // Then update in database
+      // Update the database
+      if (newLikedState) {
         await incrementLikes(postId);
-        console.log("Like added successfully");
       } else {
-        // First update state and localStorage (optimistic update)
-        setLikes((prevLikes) => Math.max(0, prevLikes - 1));
-        setHasLiked(false);
-        localStorage.removeItem(`liked-${postId}`);
-
-        // Then update in database
         await decrementLikes(postId);
-        console.log("Like removed successfully");
       }
     } catch (error) {
-      console.error("Error toggling like:", error);
+      console.error("Failed to update like:", error);
 
-      // If there was an error, revert to the previous state
-      if (hasLiked) {
-        setLikes((prevLikes) => prevLikes + 1);
-        setHasLiked(true);
-        localStorage.setItem(`liked-${postId}`, "true");
-      } else {
-        setLikes((prevLikes) => Math.max(0, prevLikes - 1));
-        setHasLiked(false);
-        localStorage.removeItem(`liked-${postId}`);
-      }
+      // Revert the optimistic update on failure
+      setUserLiked(!newLikedState);
+      setLikeCount((prev) =>
+        !newLikedState ? prev + 1 : Math.max(0, prev - 1)
+      );
+      saveLikeToStorage(!newLikedState);
     } finally {
-      setIsUpdating(false);
+      setIsProcessing(false);
     }
   };
 
   return (
     <button
-      onClick={handleLike}
-      disabled={isUpdating}
-      className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all 
-        ${
-          hasLiked
-            ? "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300"
-            : "bg-purple-600 hover:bg-purple-700 text-white hover:shadow-md"
-        } 
-        ${isUpdating ? "opacity-70 cursor-not-allowed" : ""}`}
-      aria-label={hasLiked ? "Unlike this post" : "Like this post"}
+      onClick={toggleLike}
+      disabled={isProcessing}
+      className={`flex items-center gap-2 px-6 py-3 rounded-full transition ${
+        userLiked
+          ? "bg-purple-100 text-purple-700"
+          : "bg-purple-600 text-white hover:bg-purple-700"
+      } ${isProcessing ? "opacity-70 cursor-wait" : ""}`}
     >
-      <FiThumbsUp
-        className={hasLiked ? "fill-purple-600 dark:fill-purple-400" : ""}
-      />
+      <FiThumbsUp className={userLiked ? "fill-purple-600" : ""} />
       <span>
-        {likes} {likes === 1 ? "Like" : "Likes"}
+        {likeCount} {likeCount === 1 ? "Like" : "Likes"}
       </span>
     </button>
   );
