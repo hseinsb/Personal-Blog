@@ -19,10 +19,12 @@ export default function LikeButton({ postId, initialLikes }: LikeButtonProps) {
   const saveLikeToStorage = useCallback(
     (liked: boolean) => {
       try {
-        if (liked) {
-          localStorage.setItem(`post_like_${postId}`, "true");
-        } else {
-          localStorage.removeItem(`post_like_${postId}`);
+        if (typeof window !== "undefined") {
+          if (liked) {
+            localStorage.setItem(`post_like_${postId}`, "true");
+          } else {
+            localStorage.removeItem(`post_like_${postId}`);
+          }
         }
       } catch (e) {
         console.error("Error accessing localStorage:", e);
@@ -52,25 +54,38 @@ export default function LikeButton({ postId, initialLikes }: LikeButtonProps) {
     setIsProcessing(true);
     const newLikedState = !userLiked;
 
+    // Update UI immediately for better UX (optimistic update)
+    setUserLiked(newLikedState);
+    setLikeCount((prevCount) =>
+      newLikedState ? prevCount + 1 : Math.max(0, prevCount - 1)
+    );
+
     try {
-      // Update the database first
+      // Update the database
       if (newLikedState) {
         await incrementLikes(postId);
       } else {
-        // Only decrement if current like count is greater than 0
         if (likeCount > 0) {
           await decrementLikes(postId);
         }
       }
 
-      // Only update UI after successful database update
-      setUserLiked(newLikedState);
-      setLikeCount((prev) =>
-        newLikedState ? prev + 1 : Math.max(0, prev - 1)
-      );
+      // If successful, save to localStorage
       saveLikeToStorage(newLikedState);
+
+      console.log(
+        `Like ${newLikedState ? "added" : "removed"}, new count: ${
+          newLikedState ? likeCount + 1 : Math.max(0, likeCount - 1)
+        }`
+      );
     } catch (error) {
       console.error("Failed to update like:", error);
+
+      // Revert UI changes if database update failed
+      setUserLiked(!newLikedState);
+      setLikeCount((prevCount) =>
+        !newLikedState ? prevCount + 1 : Math.max(0, prevCount - 1)
+      );
     } finally {
       setIsProcessing(false);
     }
@@ -80,13 +95,16 @@ export default function LikeButton({ postId, initialLikes }: LikeButtonProps) {
     <button
       onClick={toggleLike}
       disabled={isProcessing}
-      className={`flex items-center gap-2 px-6 py-3 rounded-full transition ${
+      aria-pressed={userLiked}
+      className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-200 ${
         userLiked
           ? "bg-purple-100 text-purple-700"
           : "bg-purple-600 text-white hover:bg-purple-700"
       } ${isProcessing ? "opacity-70 cursor-wait" : ""}`}
     >
-      <FiThumbsUp className={userLiked ? "fill-purple-600" : ""} />
+      <FiThumbsUp
+        className={`transition-all ${userLiked ? "fill-purple-600" : ""}`}
+      />
       <span>
         {likeCount} {likeCount === 1 ? "Like" : "Likes"}
       </span>

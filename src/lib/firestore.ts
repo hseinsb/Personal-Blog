@@ -120,16 +120,25 @@ export async function deleteComment(id: string) {
 
 // Likes operations
 export async function incrementLikes(postId: string) {
-  const postRef = doc(db, "posts", postId);
-  return updateDoc(postRef, {
-    likes: increment(1),
-  });
+  try {
+    const postRef = doc(db, "posts", postId);
+    return await updateDoc(postRef, {
+      likes: increment(1),
+    });
+  } catch (error) {
+    console.error("Error incrementing likes:", error);
+    throw error; // Re-throw to handle in the component
+  }
 }
 
 export async function decrementLikes(postId: string) {
-  const postRef = doc(db, "posts", postId);
-  // Using increment(-1) and ensuring likes don't go below 0 is handled in the LikeButton component
-  return updateDoc(postRef, {
-    likes: increment(-1),
-  });
+  try {
+    const postRef = doc(db, "posts", postId);
+    return await updateDoc(postRef, {
+      likes: increment(-1),
+    });
+  } catch (error) {
+    console.error("Error decrementing likes:", error);
+    throw error; // Re-throw to handle in the component
+  }
 }
