@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FiThumbsUp, FiCalendar } from "react-icons/fi";
+import { FiCalendar } from "react-icons/fi";
 import { BlogPost } from "@/lib/firestore";
 
 type BlogPostCardProps = {
@@ -58,13 +58,9 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
         >
           {post.category.replace("-", " ")}
         </span>
-        <div className="flex items-center text-gray-500 dark:text-gray-300 transition-colors duration-300">
-          <FiThumbsUp className="mr-1" />
-          <span>{post.likes}</span>
-        </div>
       </div>
 
-      <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-white transition-colors duration-300">
+      <h2 className="text-xl font-bold mb-2 text-gray-800 dark:!text-white transition-colors duration-300">
         {post.title}
       </h2>
 

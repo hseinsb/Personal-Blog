@@ -1,14 +1,13 @@
 import Link from "next/link";
 import { getPostBySlug, getCommentsByPostId } from "@/lib/firestore";
-import { FiThumbsUp, FiCalendar, FiMessageSquare } from "react-icons/fi";
+import { FiCalendar, FiMessageSquare } from "react-icons/fi";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import CommentForm from "@/components/CommentForm";
 import CommentList from "@/components/CommentList";
-import LikeButton from "@/components/LikeButton";
 
-// Disable caching for this page to ensure likes are always fresh
-export const revalidate = 0; // Revalidate on every request
+// Revalidate once per hour
+export const revalidate = 3600;
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
@@ -121,13 +120,6 @@ export default async function BlogPostPage(props: {
                 <FiMessageSquare className="mr-1" />
                 <span>{comments.length} comments</span>
               </div>
-
-              <div className="flex items-center">
-                <FiThumbsUp className="mr-1" />
-                <span>
-                  {post.likes} {post.likes === 1 ? "like" : "likes"}
-                </span>
-              </div>
             </div>
           </div>
 
@@ -141,14 +133,6 @@ export default async function BlogPostPage(props: {
               __html: post.content.replace(/\n\s*\n/g, "</p><p>&nbsp;</p><p>"),
             }}
           />
-
-          <div className="mt-12 flex justify-center">
-            <LikeButton
-              key={`like-${post.id}-${post.likes}`}
-              postId={post.id!}
-              initialLikes={post.likes}
-            />
-          </div>
         </article>
 
         <section className="mb-12 bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 md:p-8 transition-colors">
