@@ -71,7 +71,7 @@ body {
 }
 
 .bento-card {
-  background: var(--card-bg);
+  background: #1f2937 !important;
   border-radius: 1.25rem;
   padding: 1.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
@@ -174,4 +174,42 @@ body {
 
 .dark .prose ol li::marker {
   color: rgb(209 213 219) !important;
+}
+
+/* Override for blog cards - ensure they always stay dark regardless of theme or device */
+.bento-card,
+article.bento-card,
+div .bento-card,
+.dark .bento-card,
+.light .bento-card {
+  background-color: #1f2937 !important;
+}
+
+.bento-card h2,
+article.bento-card h2,
+.dark .bento-card h2,
+.light .bento-card h2 {
+  color: white !important;
+}
+
+.bento-card p,
+article.bento-card p,
+.dark .bento-card p,
+.light .bento-card p {
+  color: #e5e7eb !important;
+}
+
+/* Ensure this applies to all devices */
+@media screen and (max-width: 1024px) {
+  .bento-card {
+    background-color: #1f2937 !important;
+  }
+
+  .bento-card h2 {
+    color: white !important;
+  }
+
+  .bento-card p {
+    color: #e5e7eb !important;
+  }
 }

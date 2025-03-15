@@ -3,6 +3,7 @@ import { Kalam } from "next/font/google";
 import "./globals.css";
 import "./refresh.css";
 import "./mobile-fixes.css";
+import "./ios-fix.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/Header";
 import CacheBuster from "@/components/CacheBuster";
@@ -50,6 +51,24 @@ export default function RootLayout({
                                  (window.matchMedia('(prefers-color-scheme: dark)').matches &&
                                   localStorage.getItem('theme') !== 'light');
                   document.documentElement.classList.toggle('dark', isDark);
+                  
+                  // iOS-specific fix for blog cards
+                  const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                  if (isiOS) {
+                    // Add iOS class to html for targeting
+                    document.documentElement.classList.add('ios-device');
+                    
+                    // Create a style element for iOS-specific fixes
+                    const iosFix = document.createElement('style');
+                    iosFix.textContent = \`
+                      .bento-card { background-color: #1f2937 !important; }
+                      .bento-card h2 { color: white !important; }
+                      .bento-card p { color: #e5e7eb !important; }
+                      .bento-card .text-gray-300, .bento-card .text-gray-500 { color: #d1d5db !important; }
+                    \`;
+                    document.head.appendChild(iosFix);
+                  }
                   
                   // Force reload of CSS if it's older than 1 hour
                   const lastCssReload = localStorage.getItem('lastCssReload');

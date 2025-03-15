@@ -1,0 +1,39 @@
+/* iOS-specific fixes for blog cards */
+
+/* Target all blog cards */
+.bento-card {
+  background-color: #1f2937 !important;
+}
+
+/* Target blog card headings */
+.bento-card h2 {
+  color: white !important;
+}
+
+/* Target blog card paragraphs */
+.bento-card p {
+  color: #e5e7eb !important;
+}
+
+/* Target blog card metadata */
+.bento-card .text-gray-300,
+.bento-card .text-gray-500,
+.bento-card .text-sm {
+  color: #d1d5db !important;
+}
+
+/* Override any dark mode classes that might interfere */
+.dark .bento-card, 
+.light .bento-card {
+  background-color: #1f2937 !important;
+}
+
+.dark .bento-card h2,
+.light .bento-card h2 {
+  color: white !important;
+}
+
+.dark .bento-card p,
+.light .bento-card p {
+  color: #e5e7eb !important;
+} 

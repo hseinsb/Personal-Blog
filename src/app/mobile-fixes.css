@@ -1,1 +1,36 @@
 /* Mobile-specific fixes - currently not needed since we're using consistent styling */
+
+/* Mobile-specific fixes - specifically for iOS Safari */
+
+/* Force blog cards to stay dark on iOS devices */
+@media screen and (max-width: 844px) {
+  /* Target iOS Safari */
+  @supports (-webkit-touch-callout: none) {
+    /* Force the blog cards to stay dark regardless of theme */
+    .bento-card {
+      background-color: #1f2937 !important; /* gray-800 */
+      color: #f9fafb !important; /* gray-50 */
+    }
+
+    /* Force headings to stay white */
+    .bento-card h2 {
+      color: white !important;
+    }
+
+    /* Force content text to stay light */
+    .bento-card p {
+      color: #e5e7eb !important; /* gray-200 */
+    }
+
+    /* Force footer text to stay light */
+    .bento-card .text-gray-300,
+    .bento-card .text-gray-500 {
+      color: #d1d5db !important; /* gray-300 */
+    }
+
+    /* Additional selector to target the cards directly */
+    article[class*="bento-card"] {
+      background-color: #1f2937 !important;
+    }
+  }
+}

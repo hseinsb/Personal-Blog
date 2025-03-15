@@ -25,6 +25,37 @@ export default function ThemeToggle({ variant = "default" }: ThemeToggleProps) {
       htmlElement.classList.remove("dark");
       console.log("Fixed dark mode: Removed erroneous dark class");
     }
+
+    // iOS-specific fix to ensure blog cards always stay dark
+    const isiOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+    if (isiOS) {
+      const styleSheet = document.createElement("style");
+      styleSheet.id = "ios-blog-card-fix";
+      styleSheet.textContent = `
+        .bento-card, article.bento-card {
+          background-color: #1f2937 !important;
+        }
+        .bento-card h2, article.bento-card h2 {
+          color: white !important;
+        }
+        .bento-card p, article.bento-card p {
+          color: #e5e7eb !important;
+        }
+        .bento-card .text-gray-300, 
+        .bento-card .text-gray-500 {
+          color: #d1d5db !important;
+        }
+      `;
+
+      // Only add if not already present
+      if (!document.getElementById("ios-blog-card-fix")) {
+        document.head.appendChild(styleSheet);
+        console.log("Added iOS-specific blog card styling fix");
+      }
+    }
   }, [isDark, theme]);
 
   const handleToggle = () => {
