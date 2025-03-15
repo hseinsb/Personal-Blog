@@ -60,7 +60,7 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
         </span>
       </div>
 
-      <h2 className="text-xl font-bold mb-2 text-gray-800 dark:!text-white transition-colors duration-300">
+      <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-white transition-colors duration-300">
         {post.title}
       </h2>
 

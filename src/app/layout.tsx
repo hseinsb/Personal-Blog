@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Kalam } from "next/font/google";
 import "./globals.css";
 import "./refresh.css";
+import "./mobile-fixes.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/Header";
 import CacheBuster from "@/components/CacheBuster";

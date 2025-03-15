@@ -1,0 +1,41 @@
+/* Mobile-specific dark mode fixes */
+
+/* Fix for iOS Safari dark mode issues */
+@media (max-width: 767px) {
+  .dark article.bento-card {
+    background-color: #1f2937 !important;
+  }
+
+  .dark article.bento-card h2 {
+    color: white !important;
+  }
+
+  .dark article.bento-card p {
+    color: #e5e7eb !important;
+  }
+
+  .dark article.bento-card .text-gray-500 {
+    color: #d1d5db !important;
+  }
+
+  /* Category tags in dark mode */
+  .dark article.bento-card .bg-red-900 {
+    background-color: #7f1d1d !important;
+    color: #fecaca !important;
+  }
+
+  .dark article.bento-card .bg-green-900 {
+    background-color: #14532d !important;
+    color: #bbf7d0 !important;
+  }
+
+  .dark article.bento-card .bg-blue-900 {
+    background-color: #1e3a8a !important;
+    color: #bfdbfe !important;
+  }
+
+  .dark article.bento-card .bg-purple-900 {
+    background-color: #581c87 !important;
+    color: #e9d5ff !important;
+  }
+}
