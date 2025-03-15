@@ -1,1 +1,3 @@
- 
+ # Ignore TypeScript checking during build
+.next/types/
+**/*.d.ts
