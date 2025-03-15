@@ -25,35 +25,6 @@ export default function ThemeToggle({ variant = "default" }: ThemeToggleProps) {
       htmlElement.classList.remove("dark");
       console.log("Fixed dark mode: Removed erroneous dark class");
     }
-
-    // Special fix for iOS Safari
-    if (isDark) {
-      // Force text styles to be visible in dark mode on iOS
-      const style = document.createElement("style");
-      style.innerHTML = `
-        .dark .dark\\:text-white, 
-        .dark .dark\\:text-gray-100,
-        .dark .dark\\:text-gray-200,
-        .dark .dark\\:text-gray-300 {
-          color: white !important;
-        }
-        .dark .dark\\:bg-gray-800 {
-          background-color: #1f2937 !important;
-        }
-      `;
-      style.id = "ios-dark-mode-fix";
-
-      const existingStyle = document.getElementById("ios-dark-mode-fix");
-      if (!existingStyle) {
-        document.head.appendChild(style);
-      }
-    } else {
-      // Remove the iOS fix in light mode
-      const existingStyle = document.getElementById("ios-dark-mode-fix");
-      if (existingStyle) {
-        existingStyle.remove();
-      }
-    }
   }, [isDark, theme]);
 
   const handleToggle = () => {
@@ -63,11 +34,9 @@ export default function ThemeToggle({ variant = "default" }: ThemeToggleProps) {
     if (theme === "light") {
       document.documentElement.classList.add("dark");
       document.body.style.backgroundColor = "#1a202c";
-      document.body.style.color = "#e2e8f0";
     } else {
       document.documentElement.classList.remove("dark");
       document.body.style.backgroundColor = "#f8f9fa";
-      document.body.style.color = "#2d3748";
     }
 
     // Call the context's toggle function
