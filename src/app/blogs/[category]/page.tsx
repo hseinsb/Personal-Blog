@@ -7,7 +7,6 @@ import BlogPostCard from "@/components/BlogPostCard";
 import { notFound } from "next/navigation";
 import { useClassifiedAccess } from "@/lib/useClassifiedAccess";
 import ClientPasswordProtection from "@/components/ClientPasswordProtection";
-import { Metadata } from "next";
 
 // Simple loading component
 function Loading() {
@@ -228,27 +227,4 @@ function ClientCategoryPage({ category }: { category: string }) {
 // This becomes the default export
 export default function CategoryPage({ params }: CategoryPageProps) {
   return <ClientCategoryPage category={params.category} />;
-}
-
-export async function generateMetadata(props: {
-  params: Promise<{ category: string }>;
-}): Promise<Metadata> {
-  // Await the params object before accessing its properties
-  const { category } = await props.params;
-
-  if (!isValidCategory(category)) {
-    return {
-      title: "Category Not Found",
-    };
-  }
-
-  const formattedCategory = category
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-
-  return {
-    title: `${formattedCategory} - Hussein's Philosophy Blog`,
-    description: `Explore Hussein's philosophical thoughts on ${formattedCategory.toLowerCase()}`,
-  };
 }
