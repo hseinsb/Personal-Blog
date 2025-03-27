@@ -20,9 +20,6 @@ function Loading() {
   );
 }
 
-// More frequent revalidation for category pages
-export const revalidate = 60; // Revalidate every minute
-
 // Type for category props
 type CategoryPageProps = {
   params: { category: string };
