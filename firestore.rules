@@ -8,8 +8,8 @@ service cloud.firestore {
     
     // Posts collection
     match /posts/{postId} {
-      // Anyone can read posts
-      allow read: if true;
+      // Anyone can read non-classified posts
+      allow read: if resource.data.category != "classified" || isAdmin();
       
       // Only admin can create, update, delete
       allow create, update, delete: if isAdmin();

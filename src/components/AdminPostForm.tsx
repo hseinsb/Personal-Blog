@@ -6,7 +6,10 @@ import dynamic from "next/dynamic";
 
 // Import TinyMCE dynamically to avoid SSR issues
 const Editor = dynamic(
-  () => import("@tinymce/tinymce-react").then(({ Editor }) => Editor),
+  async () => {
+    const { Editor } = await import("@tinymce/tinymce-react");
+    return Editor;
+  },
   {
     ssr: false,
     loading: () => (
@@ -177,6 +180,7 @@ export default function AdminPostForm({
           <option value="morals">Morals</option>
           <option value="philosophy">Philosophy</option>
           <option value="personal-growth">Personal Growth</option>
+          <option value="classified">Classified</option>
         </select>
       </div>
 

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FiPlus, FiEdit2, FiTrash2, FiLogOut } from "react-icons/fi";
 import {
-  getAllPosts,
+  getAllPostsAdmin,
   deletePost,
   BlogPost,
   getCommentsByPostId,
@@ -67,7 +67,7 @@ export default function AdminDashboard() {
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const fetchedPosts = await getAllPosts();
+      const fetchedPosts = await getAllPostsAdmin();
       setPosts(fetchedPosts);
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -80,7 +80,7 @@ export default function AdminDashboard() {
   const fetchAllComments = async () => {
     setCommentsLoading(true);
     try {
-      const fetchedPosts = await getAllPosts();
+      const fetchedPosts = await getAllPostsAdmin();
       let allComments: (Comment & { postTitle: string })[] = [];
 
       // Fetch comments for each post
@@ -321,7 +321,13 @@ export default function AdminDashboard() {
                           </Link>
                         </td>
                         <td className="px-4 py-3 capitalize text-gray-700 dark:text-gray-300">
-                          {post.category.replace("-", " ")}
+                          {post.category === "classified" ? (
+                            <span className="px-2 py-1 bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-100 rounded-md">
+                              {post.category.replace("-", " ")}
+                            </span>
+                          ) : (
+                            post.category.replace("-", " ")
+                          )}
                         </td>
                         <td className="px-4 py-3 text-gray-700 dark:text-gray-300">
                           {post.date

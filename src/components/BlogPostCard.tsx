@@ -9,11 +9,17 @@ type BlogPostCardProps = {
 export default function BlogPostCard({ post }: BlogPostCardProps) {
   // Format the date nicely
   const formattedDate = post.date
-    ? new Date(post.date.toMillis()).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
+    ? post.date.toMillis
+      ? new Date(post.date.toMillis()).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      : new Date(post.date.seconds * 1000).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
     : "Date unavailable";
 
   // Strip HTML tags and truncate content for preview
@@ -45,6 +51,8 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
         return "bg-blue-900 text-blue-100";
       case "personal-growth":
         return "bg-purple-900 text-purple-100";
+      case "classified":
+        return "bg-pink-900 text-pink-100";
       default:
         return "bg-gray-800 text-gray-100";
     }

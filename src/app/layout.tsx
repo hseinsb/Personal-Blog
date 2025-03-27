@@ -37,11 +37,16 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta
-          http-equiv="Cache-Control"
-          content="no-cache, no-store, must-revalidate"
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
-        <meta http-equiv="Pragma" content="no-cache" />
-        <meta http-equiv="Expires" content="0" />
+        {/* Add cache control headers to prevent caching */}
+        <meta
+          httpEquiv="Cache-Control"
+          content="no-store, max-age=0, must-revalidate"
+        />
+        <meta httpEquiv="Pragma" content="no-cache" />
+        <meta httpEquiv="Expires" content="0" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

@@ -1,12 +1,21 @@
 import Link from "next/link";
-import { getAllPosts } from "@/lib/firestore";
+import {
+  getAllPosts,
+  getClassifiedPosts,
+  serializeBlogPosts,
+} from "@/lib/firestore";
 import BlogPostCard from "@/components/BlogPostCard";
+import ClientClassifiedSection from "@/components/ClientClassifiedSection";
 
 // More frequent revalidation for the main blog page
 export const revalidate = 60; // Revalidate every minute
 
 export default async function BlogsPage() {
   const posts = await getAllPosts();
+  const classifiedPosts = await getClassifiedPosts();
+
+  // Serialize posts for client components
+  const serializedClassifiedPosts = serializeBlogPosts(classifiedPosts);
 
   // Generate a unique key based on the current time to help debug caching issues
   const timestamp = new Date().toISOString();
@@ -69,6 +78,9 @@ export default async function BlogsPage() {
             </div>
           )}
         </div>
+
+        {/* Classified Section */}
+        <ClientClassifiedSection posts={serializedClassifiedPosts} />
 
         {/* Hidden timestamp for debugging */}
         <div className="hidden">{timestamp}</div>

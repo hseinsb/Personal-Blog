@@ -1,0 +1,5 @@
+[33mcommit 643057755810c2c9615c5cd649c06e84ae06437b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: hseinsb <hussein.sbeiti.wb@gmail.com>
+Date:   Sat Mar 15 00:44:52 2025 -0400
+
+    Fix: Add multiple iOS-specific fixes to ensure blog cards stay dark on all devices

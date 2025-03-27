@@ -1,0 +1,14 @@
+warning: in the working copy of 'package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/layout.tsx', LF will be replaced by CRLF the next time Git touches it
+M	firestore.rules
+M	package-lock.json
+M	package.json
+M	src/app/admin/dashboard/page.tsx
+M	src/app/blog/[slug]/page.tsx
+M	src/app/blogs/[category]/page.tsx
+M	src/app/blogs/page.tsx
+M	src/app/layout.tsx
+M	src/components/AdminPostForm.tsx
+M	src/components/BlogPostCard.tsx
+M	src/lib/firestore.ts
